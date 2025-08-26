@@ -245,5 +245,3 @@ Kullanıcıdan bir sayı alıp, farklı tabanlarda yazdıran bir fonksiyon yazı
 - [Resmi Python Documentation](https://docs.python.org/3/library/functions.html)
 
 ---
-
-**Not:** Her bölüm sonunda kısa alıştırmalar ve uygulamalar yer almaktadır. İsteğe göre örnekler artırılıp azaltılabilir.

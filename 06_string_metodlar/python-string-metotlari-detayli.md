@@ -284,4 +284,3 @@ print(text.encode("utf-8"))
 
 ---
 
-Bu içerik ile yaklaşık 3 saatlik kapsamlı bir ders işlenebilir.
