@@ -1,5 +1,5 @@
 
-# Python Değişkenler (3 Saatlik Ders İçeriği)
+# Python Değişkenler lik Ders İçeriği)
 
 ## 🎯 Dersin Amacı
 - Değişken kavramını öğrenmek  
@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Giriş: Değişken Nedir? (20 dk)
+## 1. Giriş: Değişken Nedir? 
 
 Değişken, bilgisayar belleğinde verileri saklamak için kullanılan isimlendirilmiş bir alandır.  
 Python’da değişken tanımlarken **tip belirtmemize gerek yoktur**; değerine göre tip otomatik atanır.
@@ -22,7 +22,7 @@ isim = "Ali"    # str (metin)
 
 ---
 
-## 2. Değişkenlerin Özellikleri (25 dk)
+## 2. Değişkenlerin Özellikleri 
 
 - Değerler değiştirilebilir:
 ```python
@@ -46,7 +46,7 @@ print(x, y, z)  # 100 100 100
 
 ---
 
-## 3. Veri Tipleri (40 dk)
+## 3. Veri Tipleri 
 
 Python’daki temel veri tipleri:  
 - **int**: Tam sayılar  
@@ -75,7 +75,7 @@ print(type(aktif)) # <class 'bool'>
 
 ---
 
-## 4. Değişken İsimlendirme Kuralları (30 dk)
+## 4. Değişken İsimlendirme Kuralları 
 
 ✅ Geçerli örnekler:
 ```python
@@ -97,7 +97,7 @@ ad-soyad = "Veli" # tire kullanılamaz
 
 ---
 
-## 5. Kullanıcıdan Veri Alma (20 dk)
+## 5. Kullanıcıdan Veri Alma 
 
 ```python
 isim = input("Adınızı giriniz: ")
@@ -109,7 +109,7 @@ print("Gelecek yıl yaşınız:", yas + 1)
 
 ---
 
-## 6. Pratik Uygulamalar (30 dk)
+## 6. Pratik Uygulamalar 
 
 1. Kullanıcıdan adı ve yaşı alıp ekrana yazdırın.  
 2. Üçgenin alanını hesaplayan bir program yazın.  
@@ -125,7 +125,7 @@ print("Üçgenin alanı:", alan)
 
 ---
 
-## 7. Mini Quiz (15 dk)
+## 7. Mini Quiz 
 
 1. Değişken nedir?  
 2. Python’da hangi veri tipleri vardır?  
@@ -134,11 +134,11 @@ print("Üçgenin alanı:", alan)
 
 ---
 
-## 8. Ödev (10 dk)
+## 8. Ödev 
 
 - Kullanıcıdan adını, yaşını ve okulunu alıp bir cümle içinde yazdırın.  
 - 3 farklı ürünün fiyatını kullanıcıdan alarak toplamını hesaplayın.  
 
 ---
 
-⏰ **Toplam: 3 saat**
+⏰ **Toplam:**
