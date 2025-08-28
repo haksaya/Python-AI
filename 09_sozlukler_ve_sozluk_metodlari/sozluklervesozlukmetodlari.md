@@ -1,161 +1,179 @@
-# Python: Listeler, Demetler ve Liste Metotları – Ders İçeriği
+# Python'da Sözlükler ve Sözlük Metotları – Ders İçeriği
 
 ## 1. Giriş
 
-### 1.1 Python’da Veri Yapılarına Genel Bakış
-- Python programlama dilinde verileri saklamak ve düzenlemek için çeşitli veri yapılarına ihtiyaç duyulur.
-- En yaygın kullanılan veri yapıları: Liste (list), Demet (tuple), Sözlük (dict) ve Küme (set).
-- Her veri yapısının kendine özgü avantajları, kullanım alanları ve özellikleri vardır.
+### 1.1 Sözlük nedir? Neden kullanılır?
+- **Sözlük (dictionary)**, Python’da veriyi anahtar–değer (key-value) çiftleriyle saklayan bir veri yapısıdır.
+- Listenin aksine, elemanlara indeksle değil, anahtar ile erişilir.
+- Sözlükler, hızlı veri erişimi ve organize veri saklama için kullanılır. Bir kişinin bilgileri, ürün katalogları, ayarlar gibi birçok yerde tercih edilir.
 
-### 1.2 Listeler ve Demetler Neden Önemli?
-- **Listeler**: Değiştirilebilir, sıralı veri saklama sağlar; birden fazla veri tipini aynı anda tutabilir.
-- **Demetler**: Sıralı ama değiştirilemezler; sabit veri veya anahtar olarak kullanmak için idealdir.
-- Hem listeler hem de demetler, Python’da veri toplama, sınıflandırma, döngüyle işleme gibi temel işlemler için çok kullanılır.
+### 1.2 Anahtar–değer (key-value) kavramı
+- Sözlüklerde her eleman bir anahtar ve ona karşılık gelen bir değerden oluşur.
+- Anahtarlar benzersiz (unique) ve değiştirilemez (immutable) olmalıdır. Genellikle string, sayı veya tuple tipindedir.
+- Değerler her türlü veri tipi olabilir; sayı, string, liste, hatta başka bir sözlük.
 
-### 1.3 Kullanım Alanları ve Avantajları
-- Listeler: Öğrenci listesi, alışveriş listesi, veri analizi, sonuçlar gibi değişken veri kümeleri için uygundur.
-- Demetler: Koordinatlar, sabit ayarlar, veri tabanında bir kaydın anahtarı gibi değişmemesi gereken veriler için kullanılır.
-- Her ikisi de hızlı erişim, kolay indeksleme ve birden fazla işlemi destekler.
-- Python’un liste metotları sayesinde listeler ile veri ekleme, silme, sıralama ve filtreleme işlemleri kolayca yapılabilir.
+### 1.3 Sözlüklerin avantajları ve kullanım alanları
+- **Avantajları:**
+    - Hızlı arama ve güncelleme (hash tabanlı erişim)
+    - Esnek veri tipi desteği
+    - Dinamik olarak büyüyebilir
+    - Anahtarlar aracılığıyla anlamlı veri erişimi
+- **Kullanım alanları:**
+    - Veritabanı kayıtları, JSON veri yapıları
+    - Konfigürasyon ve ayar dosyaları
+    - Sözlükler, anahtar ile hızlı veri arama gerektiren tüm uygulamalarda kullanılır
 
 ---
 
-## 2. Listeler (List) – Tanım ve Temel İşlemler
+## 2. Sözlük Oluşturma ve Temel İşlemler
 
-### 2.1. Liste Oluşturma ve Eleman Ekleme
+### 2.1. Sözlük Oluşturma
 ```python
-meyveler = ["elma", "armut", "muz"]
-bos_liste = []
-karisik = [1, "merhaba", True, 3.14]
+bos_sozluk = {}
+ogrenci = {"ad": "Ali", "yas": 21, "okul": "YTÜ"}
+notlar = dict(math=90, fizik=85)
 ```
 
-### 2.2. Liste Elemanlarına Erişim
+### 2.2. Elemanlara Erişim
 ```python
-print(meyveler[0])      # "elma"
-print(meyveler[-1])     # "muz"
-print(meyveler[1:3])    # ["armut", "muz"]
+print(ogrenci["ad"])
+print(ogrenci.get("yas"))
 ```
 
-### 2.3. Listeyi Döngüyle Gezmek
+### 2.3. Eleman Ekleme ve Güncelleme
 ```python
-for meyve in meyveler:
-    print(meyve)
+ogrenci["sinif"] = 3
+ogrenci["yas"] = 22
 ```
 
-### 2.4. Listelerde Değişiklik Yapmak
+### 2.4. Eleman Silme
 ```python
-meyveler[1] = "kiraz"   # ["elma", "kiraz", "muz"]
-meyveler.append("portakal")
-meyveler.insert(1, "kivi")
+del ogrenci["okul"]
+yas = ogrenci.pop("yas")
 ```
 
 #### Alıştırma:
-Bir listedeki tüm sayıları çiftse "çift", tekse "tek" olarak ekrana yazdıran bir program yazın.
+Kullanıcıdan alınan anahtar–değer ikilileriyle bir sözlük oluşturup, anahtar ile arama yapan bir program yazın.
 
 ---
 
-## 3. Demetler (Tuple) – Tanım ve Kullanım
+## 3. Sözlüklerde Döngü ve Arama
 
-### 3.1. Demet Oluşturma
+### 3.1. Anahtar, Değer ve Elemanlar
 ```python
-koordinat = (10, 20)
-tekli_demet = (5,)  # Virgül zorunlu!
-karisik = (1, "ahmet", False)
+print(ogrenci.keys())     # dict_keys(['ad', 'sinif'])
+print(ogrenci.values())   # dict_values(['Ali', 3])
+print(ogrenci.items())    # dict_items([('ad', 'Ali'), ('sinif', 3)])
 ```
 
-### 3.2. Demete Eleman Erişimi
+### 3.2. Sözlükte Döngü
 ```python
-print(koordinat[0])  # 10
+for anahtar in ogrenci:
+    print(anahtar, ogrenci[anahtar])
+
+for anahtar, deger in ogrenci.items():
+    print(f"{anahtar}: {deger}")
 ```
 
-### 3.3. Demetlerin Özellikleri
-- Değiştirilemez (immutable)
-- Hızlı ve güvenli
-- Sözlük anahtarı olarak kullanılabilir
-
-### 3.4. Demeti Döngüyle Gezmek
+### 3.3. Anahtar Kontrolü
 ```python
-for eleman in karisik:
-    print(eleman)
+print("ad" in ogrenci)       # True
+print("soyad" not in ogrenci) # True
 ```
 
 #### Alıştırma:
-Bir demetin elemanlarını ekrana yazdıran bir fonksiyon yazın.
+Bir sözlükte sadece belirli anahtarlara sahip değerleri ekrana yazdıran fonksiyon yazın.
 
 ---
 
-## 4. Liste Metotları – Ayrıntılı İnceleme
+## 4. Sözlük Metotları
 
-### 4.1. append(), insert(), extend()
+### 4.1. get(), setdefault()
 ```python
-meyveler.append("çilek")
-meyveler.insert(2, "üzüm")
-meyveler.extend(["karpuz", "kavun"])
+# get(): Anahtar yoksa None veya varsayılan döner
+print(ogrenci.get("soyad", "Bilinmiyor"))
+
+# setdefault(): Anahtar yoksa ekler, varsa mevcut değeri döner
+ogrenci.setdefault("soyad", "Yılmaz")
 ```
 
-### 4.2. remove(), pop(), clear()
+### 4.2. update()
 ```python
-meyveler.remove("elma")
-meyveler.pop()           # sondaki eleman çıkarılır
-meyveler.pop(0)          # belirli indeks çıkarılır
-meyveler.clear()         # tüm elemanlar silinir
+ekstra = {"şehir": "İstanbul", "burslu": True}
+ogrenci.update(ekstra)
 ```
 
-### 4.3. index(), count()
+### 4.3. pop(), popitem()
 ```python
-meyveler = ["elma", "muz", "elma", "armut"]
-print(meyveler.index("muz"))   # 1
-print(meyveler.count("elma"))  # 2
+yas = ogrenci.pop("yas", None)
+anahtar, deger = ogrenci.popitem()  # Son eklenen anahtarı siler
 ```
 
-### 4.4. sort(), reverse()
+### 4.4. clear(), copy()
 ```python
-sayilar = [5, 1, 7, 3]
-sayilar.sort()                 # [1, 3, 5, 7]
-sayilar.sort(reverse=True)     # [7, 5, 3, 1]
-sayilar.reverse()              # [1, 3, 5, 7] -> [7, 5, 3, 1]
-```
-
-### 4.5. copy()
-```python
-yeni_liste = sayilar.copy()
-```
-
-### 4.6. List Comprehension (Liste Üreteci)
-```python
-kareler = [x**2 for x in range(10)]
+kopya = ogrenci.copy()
+ogrenci.clear()  # Tüm elemanları siler
 ```
 
 #### Alıştırma:
-Bir listedeki elemanları tersine çeviren, büyükten küçüğe sıralayan ve tekrar edenleri silen bir fonksiyon yazın.
+Bir sözlüğün kopyasını oluşturup, kopyada bir değer değiştirip orijinal sözlüğün değişmediğini gösteren bir program yazın.
 
 ---
 
-## 5. Listeler ve Demetler Arası Dönüşüm
+## 5. Sözlüklerde İleri Düzey Kullanım
 
-### 5.1. tuple() ve list() Fonksiyonları
+### 5.1. Sözlükle List, Tuple ve Set Kullanımı
 ```python
-t = tuple(meyveler)
-l = list(koordinat)
+# Anahtarlar tuple olabilir
+koordinatlar = {(0,0): "başlangıç", (1,1): "hedef"}
+
+# Değerler liste veya başka sözlük olabilir
+siniflar = {"9A": ["Ali", "Ayşe"], "9B": ["Veli", "Can"]}
+```
+
+### 5.2. Sözlükten Listeye Dönüştürme
+```python
+anahtarlar = list(ogrenci.keys())
+degerler = list(ogrenci.values())
+```
+
+### 5.3. Sözlükle List Comprehension
+```python
+meyveler = ["elma", "armut", "kiraz"]
+fiyatlar = [5, 7, 10]
+sozluk = {meyve: fiyat for meyve, fiyat in zip(meyveler, fiyatlar)}
 ```
 
 #### Alıştırma:
-Kullanıcıdan alınan elemanlarla bir liste oluşturup, bunu demete çeviren bir program yazın.
+Bir listenin elemanlarını anahtar, eleman uzunluğunu değer olarak içeren bir sözlük oluşturan fonksiyon yazın.
 
 ---
 
-## 6. Uygulama ve Proje
+## 6. Sözlüklerde Hatalar ve İpuçları
 
-- Karmaşık bir veri seti: Sınıf listesi (isim, yaş, not)
-- Listeler ve demetler ile temel analizler: En yüksek notu bulma, isimleri sıralama, yaş ortalaması
-- Kısa uygulama: Sözlükler ile birlikte liste/demet kullanımı
+- Sözlükte olmayan anahtara erişim hatası (`KeyError`)
+- get() ile güvenli erişim
+- Anahtarların değiştirilemez (immutable) tipler olması gerektiği
+- Sözlüklerin sıralı olmadığını (Python 3.7 ve sonrası eklenme sırası korunur)
+- Büyük veri kümelerinde sözlük performansı
+
+#### Alıştırma:
+Sözlükte olmayan bir anahtara erişim hatasını try/except ile yöneten bir örnek yazın.
 
 ---
 
-## 7. Soru-Cevap ve Kapanış
+## 7. Uygulama ve Mini Proje
+
+- Öğrenci not sözlükleri ile ortalama ve en yüksek notu bulma
+- Metin içindeki kelimelerin sıklığını sayan fonksiyon
+- Sözlükleri kullanarak basit adres defteri uygulaması
+
+---
+
+## 8. Soru-Cevap ve Kapanış
 
 - Sık yapılan hatalar ve ipuçları
-- Gömülü fonksiyonlar ile liste/demet işlemleri
+- Sözlük metotları ile ilgili ileri uygulama örnekleri
 - Ek kaynaklar ve ileri okuma
 
 ---
