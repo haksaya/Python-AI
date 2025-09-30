@@ -1,17 +1,17 @@
-# Python Programlama: Fonksiyonlar, Request Kütüphanesi ve Terminal – Ders İçeriği
+# Python Programlama: Fonksiyonlar, Request Kütüphanesi ve Temel Terminal – Ders İçeriği
 
 ## 1. Giriş
 
 ### 1.1 Dersin Amacı
-- Python'da fonksiyonlar, internetten veri çekmek için request kütüphanesi, terminal kavramı ve temel terminal komutları hakkında temel bilgiler ve bol örneklerle pratik yapmak.
+- Python'da fonksiyonlar, internetten veri çekmek için request kütüphanesi ve terminal kavramı hakkında temel bilgiler ve örneklerle pratik yapmak.
 
 ---
 
 ## 2. Fonksiyonlar
 
 ### 2.1 Fonksiyon Nedir?
-- Belli bir görevi yerine getiren kod bloklarıdır.
-- Kod tekrarını azaltır, kodun okunabilirliğini artırır.
+- Belirli bir görevi yerine getiren kod bloklarıdır.
+- Kod tekrarını azaltır, okunabilirliği artırır.
 
 ### 2.2 Basit Fonksiyon Tanımlama
 ```python
@@ -55,6 +55,9 @@ toplam, fark, carpim = islemler(5, 3)
 print(toplam, fark, carpim)
 ```
 
+#### Alıştırma:
+- İki parametre alan ve bunların çarpımını döndüren bir fonksiyon yazın.
+- Bir listeyi parametre olarak alıp içindeki en büyük sayıyı döndüren fonksiyon yazın.
 
 ---
 
@@ -108,63 +111,44 @@ except requests.exceptions.RequestException as e:
     print("Hata:", e)
 ```
 
+#### Alıştırma:
+- Bir API'den rastgele veri çekip ekrana yazdıran basit bir program yazın.
+- POST ile bir form gönderen örnek kod yazın.
 
 ---
 
-## 4. Terminal Kavramı
+## 4. Temel Terminal Kavramı ve Komutları
 
 ### 4.1 Terminal Nedir?
 - Bilgisayar ile etkileşim kurmak için kullanılan komut satırı arayüzüdür.
-- Grafik arayüz yerine yazılı komutlar ile işlem yapılır.
 
-### 4.2 Terminal Kullanım Alanları
-- Dosya ve klasör işlemleri
-- Program kurulumu ve çalıştırma
-- Versiyon kontrolü (Git)
-- Uzaktan sunucu yönetimi
-
-### 4.3 Terminal Açma
+### 4.2 Terminal Açma
 - Windows: CMD, PowerShell veya Windows Terminal
 - MacOS/Linux: Terminal uygulaması
 
----
-
-## 5. Temel Terminal Komutları
-
-### 5.1 Dizini Görüntüleme
+### 4.3 Sık Kullanılan Temel Komutlar
 ```bash
 pwd  # Bulunduğunuz klasörü gösterir (Linux/Mac)
 cd   # Klasör değiştirir
 ls   # Klasördeki dosyaları listeler (Linux/Mac)
 dir  # Windows'ta dosya listeler
-```
-
-### 5.2 Dosya ve Klasör İşlemleri
-```bash
 mkdir yeni_klasor      # Yeni klasör oluşturur
-touch dosya.txt        # Yeni dosya oluşturur (Linux/Mac)
-echo Merhaba > dosya.txt  # Dosya içerisine yazı ekler
-del dosya.txt          # Dosya siler (Windows)
-rm dosya.txt           # Dosya siler (Linux/Mac)
 ```
 
-### 5.3 Dosya Okuma ve Düzenleme
-```bash
-cat dosya.txt          # Dosya içeriğini gösterir (Linux/Mac)
-type dosya.txt         # Windows'ta dosya içeriğini gösterir
-nano dosya.txt         # Linux/Mac'te dosyayı düzenler
-```
-
-### 5.4 Komutları Zincirleme ve Yardım Alma
-```bash
-ls -l                 # Dosyaları detaylı listeler
-ls | grep txt         # txt içeren dosyaları bulur
-komut --help          # Komutun nasıl kullanıldığını gösterir
-```
+#### Alıştırma:
+- Terminalde bir klasör oluşturup içine girin ve dizin yolunu görüntüleyin.
 
 ---
 
-## 7. Soru-Cevap ve Kapanış
+## 5. Pratik Uygulamalar ve Mini Proje
+
+- Basit bir Python fonksiyonu ile kullanıcıdan alınan iki sayıyı toplayıp ekrana yazdıran program.
+- Bir API'den veri çekip terminalde gösteren Python programı.
+- Mini Proje: Kullanıcıdan şehir adını alıp, bu şehirle ilgili hava durumu verilerini bir API'den çekip terminalde gösteren Python programı.
+
+---
+
+## 6. Soru-Cevap ve Kapanış
 
 - Konulara dair sık sorulan sorular ve ipuçları.
 - Daha fazla öğrenmek için kaynaklar ve ileri okuma önerileri.
