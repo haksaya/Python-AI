@@ -1,198 +1,294 @@
-# NumPy ile Vektör ve Matris İşlemleri Ders İçeriği
+# Python'da NumPy – Basit, Açıklamalı ve Gündelik Hayattan Örneklerle Ders İçeriği
 
+Bu ders, NumPy kütüphanesini sıfırdan başlayarak gündelik hayattan örneklerle anlatır. Her bölüm bol açıklama ve gerçek yaşamdan örnekler içerir.
 
 ---
 
-## 1) NumPy Nedir?
+## 1. NumPy Nedir? Giriş ve Kurulum
 
-- NumPy, Python’da sayısal işlemler için en popüler kütüphanedir.
-- En önemli özelliği: **Dizi (array) ve matris** işlemlerini hızlı ve kolayca yapabilmek.
-- Listelere göre çok daha hızlıdır ve büyük verilerle çalışmak için idealdir.
+- NumPy, Python’da hızlı ve verimli bilimsel hesaplama için kullanılır.
+- Temel veri yapısı: ndarray (n-boyutlu dizi).
+- Neden NumPy?
+  - Büyük veriyle hızlı çalışır.
+  - Döngü yazmadan toplu işlemler yapılabilir.
+  - Listelere göre çok daha hızlıdır.
 
-**Kurulum:**
+**Kurulum ve ilk kullanım:**
 ```python
 import numpy as np
+print(np.__version__)  # NumPy sürümünü yazdırır
 ```
-Bu satır NumPy kütüphanesini kullanmak için içe aktarır.
 
-**Günlük Hayattan Örnek:**
-Bir markette aldığınız ürünlerin fiyatlarının listesini tutmak ve toplam harcamanızı hesaplamak istiyorsunuz.
+**Günlük Hayattan Örnek:**  
+Market alışverişindeki ürün fiyatlarını bir diziye koyup toplam harcamayı hesaplamak.
 
 ```python
-urun_fiyatlari = np.array([25, 15, 30, 10])
-print(urun_fiyatlari)
-```
-- Bir NumPy dizisi oluşturduk, içinde market ürünlerinin fiyatları var.
-- Diziyi ekrana yazdırdık.
-
-**Toplam harcama:**
-```python
+urun_fiyatlari = np.array([15, 10, 8, 12])
 print("Toplam harcama:", urun_fiyatlari.sum())
 ```
-- `.sum()` ile dizi içindeki tüm fiyatları topladık.
+- Bir NumPy dizisi oluşturduk, içinde ürün fiyatları var.
+- `.sum()` ile toplamı aldık.
 
 ---
 
-## 2) Vektörel İşlemler Nedir?
+## 2. NumPy Dizileri (Array) ve Vektörler
 
-- NumPy ile **vektör** gibi tek boyutlu diziler üzerinde toplama, çıkarma, çarpma, bölme gibi işlemleri tek adımda yapabilirsin.
-- Tüm elemanlara **tek seferde** işlem uygulanır, döngü gerekmez.
+- NumPy ile tek boyutlu ve çok boyutlu diziler oluşturulabilir.
+- Vektör = Tek boyutlu dizi.
+- Matris = İki boyutlu dizi.
 
-**Günlük Hayattan Örnek:**
-Bir haftalık hava sıcaklıklarını ve nem oranlarını tutup, bunların toplamlarını ve ortalamalarını bulmak.
-
+**Dizi oluşturma:**
 ```python
-gunler = np.array(["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma"])
-sicakliklar = np.array([18, 20, 22, 19, 21])
-nemler = np.array([65, 60, 55, 70, 68])
-
-print("Haftalık ortalama sıcaklık:", sicakliklar.mean())
-print("Haftalık toplam nem:", nemler.sum())
+a = np.array([1, 2, 3])
+b = np.arange(5)          # [0 1 2 3 4]
+c = np.linspace(0, 1, 5)  # [0.  0.25 0.5 0.75 1.]
 ```
-- `gunler`: Gün isimleri için bir NumPy dizisi (string tipinde, işlemlerde kullanmayacağız).
-- `sicakliklar`: Her günün sıcaklık değeri (derece).
-- `nemler`: Her günün nem oranı (%).
-- `.mean()` ile sıcaklıkların ortalamasını bulduk.
-- `.sum()` ile nemlerin toplamını bulduk.
 
-**Vektörler arası işlem (örnek):**
-Haftanın her günü için “hissedilen sıcaklığı” sıcaklık ve nemden hesaplayalım (kabaca):
+**Günlük Hayattan Örnek:**  
+Bir hafta boyunca her gün kaç adım attığınızı kaydetmek.
 ```python
-hissedilen = sicakliklar + (nemler / 100)
-print("Hissedilen sıcaklıklar:", hissedilen)
+adimlar = np.array([3500, 7000, 5000, 8500, 10000, 3000, 4000])
+print("Toplam adım:", adimlar.sum())
+print("Ortalama adım:", adimlar.mean())
 ```
-- Nem oranını 100’e bölerek sıcaklığa ekledik. Her gün için yeni bir değer oluştu.
+- Haftalık adım sayısını bir diziye koyduk.
+- `.sum()` ile toplamı, `.mean()` ile ortalamayı bulduk.
 
-**Alıştırma:**
-- Bir hafta boyunca spor yaptığınız dakikaları bir diziye girin. Haftalık toplam ve ortalama süreyi bulun.
+**Dilimleme ve indeksleme:**
+```python
+print(adimlar[0])     # Pazartesi adımı
+print(adimlar[-1])    # Pazar adımı
+print(adimlar[2:5])   # 3. ve 5. günler arası adımlar
+```
+
+**Alıştırma:**  
+Bir haftalık su tüketiminizi (litre cinsinden) bir vektöre girin ve toplam ile ortalamayı bulun.
 
 ---
 
-## 3) NumPy Vektörleri
+## 3. Vektörel İşlemler
 
-- **Vektör:** Tek boyutlu NumPy dizisidir.
-- NumPy ile farklı şekillerde vektör oluşturabilirsin.
+- NumPy ile vektörler üzerinde toplama, çıkarma, çarpma, bölme gibi işlemler döngü olmadan yapılır.
 
-**Günlük Hayattan Örnek:**
-Bir sınıftaki öğrencilerin sınav notlarını kaydedip, kimlerin geçtiğini bulmak.
-
+**Günlük Hayattan Örnek:**  
+Haftalık harcamalarınızın üstüne her gün için 5 TL indirim uygulama.
 ```python
-sinav_notlari = np.array([45, 67, 89, 30, 56, 78, 90])
-print("Sınav notları:", sinav_notlari)
+harcamalar = np.array([30, 22, 18, 25, 40, 35, 28])
+indirimli = harcamalar - 5
+print("İndirimli harcamalar:", indirimli)
 ```
-- Sınıftaki öğrencilerin notlarını bir NumPy dizisine aktardık.
+- Her harcamadan 5 TL çıkardık.
 
-**Geçen öğrenciler:**
+**Farklı dizilerle işlem:**
+Arkadaşınızın adım sayısı ile kendi adım sayınızı toplayıp toplam adımı bulun.
 ```python
-gecenler = sinav_notlari >= 50
-print("Geçenler (True/False):", gecenler)
-print("Geçenlerin notları:", sinav_notlari[gecenler])
+adimlar_sen = np.array([3500, 7000, 5000, 8500, 10000, 3000, 4000])
+adimlar_arkadas = np.array([4000, 6500, 6000, 9000, 8500, 3200, 4100])
+toplam_adim = adimlar_sen + adimlar_arkadas
+print("Günlük toplam adımlar:", toplam_adim)
 ```
-- `sinav_notlari >= 50` ile 50 ve üzeri notları geçen olarak işaretledik (Boolean maske).
-- `sinav_notlari[gecenler]` ile sadece geçenlerin notlarını aldık.
 
-**En yüksek notu bulma:**
+**Dot product (noktasal çarpım):**  
+Her gün harcanan kalori ve adım sayısını çarpıp haftalık toplam enerji harcaması.
 ```python
-print("En yüksek not:", sinav_notlari.max())
+adimlar = np.array([3500, 7000, 5000, 8500, 10000, 3000, 4000])
+kalori = np.array([0.03, 0.04, 0.035, 0.038, 0.032, 0.029, 0.031])
+enerji = adimlar @ kalori
+print("Toplam enerji harcaması:", enerji)
 ```
-- `.max()` ile en yüksek değeri bulduk.
+- Her gün adım ve kalori katsayısını çarpıp topladık.
 
-**Alıştırma:**
-- 10 kişinin adım sayısını bir NumPy dizisine girin. 8000 adımdan fazla atanların adım sayılarını yazdırın.
+**Alıştırma:**  
+Bir haftalık elektrik tüketiminize zam oranı (örneğin %8) ekleyerek yeni tutarları hesaplayın.
 
 ---
 
-## 4) NumPy Matrisleri
+## 4. Boolean Maske ve Filtreleme
 
-- **Matris:** İki boyutlu NumPy dizisidir. Satır ve sütunlardan oluşur.
+- NumPy ile filtreleme yapmak çok kolaydır.
 
-**Günlük Hayattan Örnek:**
-Bir haftalık market alışverişinizin ürün bazında fiyat listesini tablo halinde tutmak.
-
-| Ürünler   | Pazartesi | Salı | Çarşamba |
-|-----------|-----------|------|----------|
-| Süt       | 15        | 16   | 15       |
-| Ekmek     | 5         | 6    | 5        |
-| Yumurta   | 20        | 18   | 19       |
-
+**Günlük Hayattan Örnek:**  
+Bir sınıfta 10 öğrencinin notlarını girip, sadece geçenleri (>=50) bulmak.
 ```python
-fiyatlar = np.array([[15, 16, 15],
-                     [5, 6, 5],
-                     [20, 18, 19]])
-print("Market fiyatları matrisi:\n", fiyatlar)
+notlar = np.array([45, 67, 89, 30, 56, 78, 90, 40, 50, 60])
+gecenler = notlar >= 50
+print("Geçenlerin notları:", notlar[gecenler])
 ```
-- 3 ürün ve 3 günün fiyatlarını tablo halinde bir NumPy matrisine aktardık.
+- `notlar >= 50` ile geçenleri seçtik.
 
-**Her ürünün haftalık toplam maliyeti:**
+**Alıştırma:**  
+Bir hafta boyunca gün gün harcadığınız parayı bir diziye girin. Sadece 20 TL’den fazla harcamaları listeleyin.
+
+---
+
+## 5. NumPy Matrisleri ve 2D Diziler
+
+- Matris: Satır ve sütunlardan oluşan 2 boyutlu dizi.
+
+**Oluşturma:**
+```python
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+```
+
+**Günlük Hayattan Örnek:**  
+3 ürünün 4 gün boyunca marketteki fiyatlarını tablo halinde tutmak.
+```python
+fiyatlar = np.array([[15, 16, 15, 17],   # Süt fiyatları
+                     [5, 6, 5, 6],      # Ekmek fiyatları
+                     [20, 18, 19, 20]]) # Yumurta fiyatları
+```
+- Satırlar ürünleri, sütunlar günleri temsil ediyor.
+
+**Satır ve sütun toplamları:**
 ```python
 urun_toplam = fiyatlar.sum(axis=1)
-print("Her ürünün haftalık toplam maliyeti:", urun_toplam)
-```
-- `axis=1` ile satır bazında topladık (her ürünün toplamı).
-
-**Her günün toplam harcaması:**
-```python
 gun_toplam = fiyatlar.sum(axis=0)
-print("Her günün toplam harcaması:", gun_toplam)
+print("Her ürünün toplamı:", urun_toplam)
+print("Her günün toplamı:", gun_toplam)
 ```
-- `axis=0` ile sütun bazında topladık (her günün toplamı).
+- `axis=1` ile satır, `axis=0` ile sütun bazında topladık.
 
-**Alıştırma:**
-- 4x3’lük bir matris oluşturun. Her satırda en yüksek değeri bulup yazdırın (ör: 4 farklı öğrencinin 3 sınav notu).
+**Alıştırma:**  
+Bir matris oluşturun (ör: 5 öğrencinin 3 sınav notu). Her öğrencinin ortalamasını ve en yüksek notunu bulun.
 
 ---
 
-## 5) Matris Metotları
+## 6. Matris Metotları: Toplama, Ortalama, Transpoz, Çarpım
 
-- NumPy ile matrislerde toplama, ortalama, maksimum, minimum gibi işlemler çok kolaydır.
-
-**Günlük Hayattan Örnek:**
-Bir okulda, 3 farklı sınıfın 4 farklı sınavdan aldığı notları bir tabloya aktarıp analiz edelim.
-
+**Toplam, Ortalama, Maksimum, Minimum:**
 ```python
-notlar = np.array([[70, 80, 65, 90],
-                   [60, 55, 75, 85],
-                   [88, 92, 79, 95]])
-print("Sınıf sınav notları:\n", notlar)
+A = np.array([[1, 2, 3],
+              [4, 5, 6]])
+print(A.sum())           # Tüm elemanların toplamı
+print(A.mean())          # Tüm elemanların ortalaması
+print(A.max())           # En büyük değer
+print(A.min())           # En küçük değer
+print(A.sum(axis=0))     # Sütunların toplamı
+print(A.mean(axis=1))    # Satırların ortalaması
 ```
-- 3 sınıf (satır), 4 sınav (sütun) notlarını bir matrise aktardık.
 
-**Her sınavın ortalaması:**
+**Günlük Hayattan Örnek:**  
+Bir ay boyunca 4 haftalık su tüketiminizi tabloya girip, her haftanın toplamını ve ortalamasını bulun.
 ```python
-sinav_ort = notlar.mean(axis=0)
-print("Her sınavın ortalaması:", sinav_ort)
+su = np.array([[2, 2.5, 3, 2.8, 2.2, 2.4, 2.6],     # 1. hafta
+               [2.1, 2.3, 2.7, 2.5, 2.2, 2.0, 2.8], # 2. hafta
+               [2.9, 2.7, 2.8, 2.6, 2.4, 2.7, 2.5], # 3. hafta
+               [2.5, 2.6, 2.5, 2.3, 2.4, 2.2, 2.1]])# 4. hafta
+hafta_toplam = su.sum(axis=1)
+hafta_ortalama = su.mean(axis=1)
+print("Hafta toplamları:", hafta_toplam)
+print("Hafta ortalamaları:", hafta_ortalama)
 ```
-- `axis=0` ile her sütunun ortalamasını bulduk (her sınav için).
 
-**Her sınıfın en yüksek notu:**
+**Transpoz (satır/sütun yer değiştirme):**
 ```python
-sinif_max = notlar.max(axis=1)
-print("Her sınıfın en yüksek notu:", sinif_max)
+print("Transpoz:\n", su.T)
 ```
-- `axis=1` ile her satırın en büyük değerini bulduk (her sınıf için).
 
-**Transpoz (satır/sütunları yer değiştirme):**
+**Matris çarpımı:**
 ```python
-print("Notlar transpoz:\n", notlar.T)
+A = np.array([[1, 2],
+              [3, 4]])
+B = np.array([[2, 0],
+              [1, 2]])
+C = A @ B
+print("Matris çarpımı:\n", C)
 ```
-- `.T` ile satır ve sütunları yer değiştirdik.
 
-**Alıştırma:**
-- 5x2’lik bir matris oluşturun. Her sütunun toplamını ve her satırın ortalamasını yazdırın (ör: 5 gün boyunca 2 farklı kişiye ait su tüketimi).
+**Alıştırma:**  
+Bir 4x2 matris oluşturun (ör: 4 kişinin 2 farklı günde yaptığı spor dakikası), toplamları ve ortalamaları bulun.
 
 ---
 
-## Kapanış ve Ödev
+## 7. İleri Matris İşlemleri: Determinant, Ters, Ax=b Çözümü
+
+**Determinant ve Ters:**
+```python
+M = np.array([[4., 7.],
+              [2., 6.]])
+print(np.linalg.det(M))     # Determinant
+print(np.linalg.inv(M))     # Ters matris
+```
+- Kare matrislerde kullanılır.
+
+**Denklem Çözümü (Ax=b):**
+```python
+A = np.array([[4, 2],
+              [3, 5]])
+b = np.array([10, 13])
+x = np.linalg.solve(A, b)
+print("Çözüm:", x)
+```
+- Örneğin bir bütçe dağılımı denkleminde kullanılabilir.
+
+**Köşegen işlemleri:**
+```python
+D = np.diag([1,2,3])
+print(D)
+print(np.diag(D))
+```
+
+**Alıştırma:**  
+Bir 3x3 matris oluşturun, determinantını bulun. Eğer determinant sıfıra yakınsa “tekil matris” yazdırın.
+
+---
+
+## 8. NumPy'da Rastgele Sayılar ve Basit İstatistik
+
+**Rastgele dizi ve matris oluşturma:**
+```python
+rastgele_v = np.random.randint(1, 100, size=10)  # 1-99 arası 10 sayı
+rastgele_m = np.random.rand(3, 4)                # 3x4 matris, [0,1) arası
+print("Rastgele vektör:", rastgele_v)
+print("Rastgele matris:\n", rastgele_m)
+```
+
+**Basit istatistikler:**
+```python
+print("En büyük değer:", rastgele_v.max())
+print("En küçük değer:", rastgele_v.min())
+print("Ortalama:", rastgele_v.mean())
+print("Standart sapma:", rastgele_v.std())
+```
+
+**Alıştırma:**  
+20 günlük sıcaklıkları rastgele oluşturun. En sıcak ve en soğuk günü bulun.
+
+---
+
+## 9. Gerçek Hayat Mini Proje
+
+**Proje:** 1 ay boyunca günlük harcamalarınızı kaydedin, haftalık toplamları ve en fazla harcama yapılan günü bulun.
+
+```python
+harcamalar = np.array([55, 40, 60, 70, 45, 30, 50, 65, 80, 35, 60, 75, 40, 55, 60, 70, 45, 50, 65, 80, 35, 60, 75, 40, 55, 60, 70, 45, 50, 65])
+hafta_toplamlari = harcamalar.reshape(4, 7).sum(axis=1)
+print("Haftalık harcamalar:", hafta_toplamlari)
+gun_index = harcamalar.argmax()
+print("En fazla harcama yapılan gün:", gun_index + 1, "->", harcamalar[gun_index], "TL")
+```
+- 1 ayı (30 gün) 4 haftaya böldük (`reshape(4,7)`).
+- Her haftanın toplamını aldık.
+- En fazla harcamanın yapıldığı günü bulduk.
+
+**Proje Alıştırması:**
+- Bir ay boyunca günlük adım, su tüketimi ve harcama verilerini 3 farklı vektörde tutun. Haftalık ortalamaları ve en yüksek değerleri bulun.
+
+---
+
+## 10. Kapanış ve Öneriler
 
 **Özet:**
-- NumPy dizileriyle vektör ve matris işlemleri hızlı ve kolaydır.
-- Toplama, ortalama, maksimum, minimum gibi işlemler tek satırda yapılabilir.
-- Filtreleme ve maskelerle günlük hayatta veri analizi kolaylaşır.
+- NumPy ile vektör ve matrisler kolayca oluşturulur.
+- Toplama, ortalama, maksimum, minimum, filtreleme, çarpım gibi işlemler çok hızlıdır.
+- Gerçek yaşamda veri analizi ve hızlı hesaplamalar için NumPy çok faydalıdır.
 
 **Ödev (isteğe bağlı):**
-1. Bir ay boyunca günlük harcamanızı bir vektöre girin. En fazla harcama yaptığınız günü bulun.
-2. 3 öğrencinin 5 sınav notunu matris olarak girin. Her öğrencinin ortalamasını ve en düşük notunu yazdırın.
+- Kendi günlük, haftalık veya aylık verinizi NumPy ile analiz edin.
+- Matrislerde toplam, ortalama, transpoz, çarpım gibi işlemleri uygulayın.
+- Rastgele veri üreterek istatistikler çıkarın.
 
 **Kaynaklar:**
 - NumPy Dokümantasyon: https://numpy.org/doc/
-- Başlangıç için NumPy: https://numpy.org/doc/stable/user/absolute_beginners.html
+- NumPy Başlangıç: https://numpy.org/doc/stable/user/absolute_beginners.html
