@@ -201,40 +201,8 @@ Bir 4x2 matris oluşturun (ör: 4 kişinin 2 farklı günde yaptığı spor daki
 
 ---
 
-## 7. İleri Matris İşlemleri: Determinant, Ters, Ax=b Çözümü
 
-**Determinant ve Ters:**
-```python
-M = np.array([[4., 7.],
-              [2., 6.]])
-print(np.linalg.det(M))     # Determinant
-print(np.linalg.inv(M))     # Ters matris
-```
-- Kare matrislerde kullanılır.
-
-**Denklem Çözümü (Ax=b):**
-```python
-A = np.array([[4, 2],
-              [3, 5]])
-b = np.array([10, 13])
-x = np.linalg.solve(A, b)
-print("Çözüm:", x)
-```
-- Örneğin bir bütçe dağılımı denkleminde kullanılabilir.
-
-**Köşegen işlemleri:**
-```python
-D = np.diag([1,2,3])
-print(D)
-print(np.diag(D))
-```
-
-**Alıştırma:**  
-Bir 3x3 matris oluşturun, determinantını bulun. Eğer determinant sıfıra yakınsa “tekil matris” yazdırın.
-
----
-
-## 8. NumPy'da Rastgele Sayılar ve Basit İstatistik
+## 7. NumPy'da Rastgele Sayılar ve Basit İstatistik
 
 **Rastgele dizi ve matris oluşturma:**
 ```python
@@ -257,7 +225,7 @@ print("Standart sapma:", rastgele_v.std())
 
 ---
 
-## 9. Gerçek Hayat Mini Proje
+## 8. Gerçek Hayat Mini Proje
 
 **Proje:** 1 ay boyunca günlük harcamalarınızı kaydedin, haftalık toplamları ve en fazla harcama yapılan günü bulun.
 
@@ -277,7 +245,7 @@ print("En fazla harcama yapılan gün:", gun_index + 1, "->", harcamalar[gun_ind
 
 ---
 
-## 10. Kapanış ve Öneriler
+## 9. Kapanış ve Öneriler
 
 **Özet:**
 - NumPy ile vektör ve matrisler kolayca oluşturulur.
