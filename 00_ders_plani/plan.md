@@ -10,3 +10,4 @@ Toplam: 2,5 saat
 4. Soru-Cevap ve Uygulama - 20 dk
 
 
+https://marmaraedutr-my.sharepoint.com/:f:/g/personal/harunaksaya_marmara_edu_tr/IgBcInZwgZLMSJ8PfmMUCGF7AdvA3or1hCHKMa6TfokYXtE?e=TRxgbu
