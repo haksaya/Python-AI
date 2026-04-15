@@ -72,42 +72,440 @@ X = df[["CreditScore", "Age", "Tenure", "Balance",
 
 y = df["Exited"]   # 0 = Kaldı, 1 = Bankadan ayrıldı
 
-# ── 3. Veriyi eğitim ve test olarak böl ─────────────────────────
-# test_size=0.2 → %20'si test, %80'i eğitim
-# random_state=42 → Her çalıştırmada aynı sonucu almak için
+# 🔍 Logistic Regresyon — Satır Satır Açıklama
+
+> Aşağıdaki her kod bloğu **tek tek** ele alınmış, ne yaptığı sade bir dille açıklanmıştır.
+
+---
+
+## 📦 ADIM 3 — Veriyi Eğitim ve Test Olarak Böl
+
+```python
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
+```
+
+### 🧩 Bu satır ne yapıyor?
+
+Elimizdeki veriyi **iki parçaya** ayırır:
+
+```
+Tüm Veri (10.000 satır)
+        │
+        ├──── Eğitim Verisi (%80) → 8.000 satır  →  X_train, y_train
+        │
+        └──── Test Verisi   (%20) → 2.000 satır  →  X_test,  y_test
+```
+
+### 🔤 Her değişken ne?
+
+| Değişken | Ne içeriyor? | Boyut |
+|---|---|---|
+| `X_train` | Modelin **öğreneceği** özellikler | 8.000 satır |
+| `y_train` | `X_train`'e karşılık gelen doğru cevaplar (0 ya da 1) | 8.000 satır |
+| `X_test` | Modelin **hiç görmediği** özellikler | 2.000 satır |
+| `y_test` | `X_test`'in gerçek cevapları — modelin tahminini bununla karşılaştırırız | 2.000 satır |
+
+### ⚙️ Parametreler ne anlama geliyor?
+
+```python
+test_size=0.2
+# Verinin %20'si test için ayrılır.
+# Geriye kalan %80'i eğitim için kullanılır.
+# Küçük bir test seti → model çok az "sınava" girer
+# Büyük bir test seti → model çok az öğrenir
+# %80/%20 genel kabul görmüş dengeli bir orandır.
+
+random_state=42
+# Veriyi karıştırırken kullanılan "tohum" sayısıdır.
+# 42 yazdığında her çalıştırmada aynı karıştırma yapılır.
+# Yazmasan rastgele farklı böler → sonuçlar her seferinde değişir.
+# 42 sayısının özel bir anlamı yok, yaygın bir gelenek :)
+```
+
+### 🏫 Gerçek Hayat Benzetmesi
+
+> Bir öğretmen sınava hazırlık için öğrenciye 100 soru verir.
+> 80 soruyu çalışmaya (eğitim), 20 soruyu sınava (test) ayırır.
+> Sınav soruları öğrencinin daha önce görmediği sorulardır.
+> Makine öğrenmesinde de model test verisini hiç görmeden tahmin eder.
+
+---
+
+```python
 print(f"\nEğitim seti boyutu : {X_train.shape[0]} satır")
 print(f"Test seti boyutu   : {X_test.shape[0]} satır")
+```
 
-# ── 4. Ölçeklendirme (Scaling) ───────────────────────────────────
-# Logistic Regresyon, büyük sayılardan (ör: Balance=150.000)
-# küçük sayılardan (ör: HasCrCard=0/1) etkilenir.
-# StandardScaler tüm değerleri 0 çevresinde dengeli hale getirir.
+### 🧩 Bu satır ne yapıyor?
+
+Bölme işleminin doğru yapıldığını **ekranda doğrular**.
+
+```
+.shape[0]  →  kaç satır var?
+.shape[1]  →  kaç sütun var?  (burada kullanılmadı)
+```
+
+**Beklenen çıktı:**
+```
+Eğitim seti boyutu : 8000 satır
+Test seti boyutu   : 2000 satır
+```
+
+---
+
+## 📦 ADIM 4 — Ölçeklendirme (Scaling)
+
+```python
 scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)   # Eğitim verisiyle ölçeği öğren ve uygula
-X_test = scaler.transform(X_test)         # Test verisine sadece uygula (öğrenme yok!)
+```
 
-# ── 5. Modeli kur ve eğit ────────────────────────────────────────
+### 🧩 Bu satır ne yapıyor?
+
+`StandardScaler` adında bir **ölçeklendirici nesne** oluşturur.
+Henüz hiçbir şey yapmaz, sadece araç hazırlanır.
+
+---
+
+### 🤔 Neden Ölçeklendirme Gerekiyor?
+
+Verimizdeki sütunlara bakalım:
+
+| Sütun | Örnek Değer | Büyüklük |
+|---|---|---|
+| `Balance` | 150.000 | Çok büyük |
+| `EstimatedSalary` | 85.000 | Büyük |
+| `Age` | 35 | Orta |
+| `Tenure` | 5 | Küçük |
+| `HasCrCard` | 0 veya 1 | Çok küçük |
+
+Model matematiksel hesaplama yaparken büyük sayılar küçükleri **ezer**.
+Sanki `Balance` her şeyi tek başına belirliyor gibi davranır.
+Ölçeklendirme tüm sütunları **eşit oyun alanına** getirir.
+
+```
+Ölçeklendirme Öncesi:   Balance=150.000   HasCrCard=1
+                           dev bir fil    vs  küçük bir karınca
+
+Ölçeklendirme Sonrası:  Balance=1.3       HasCrCard=-0.8
+                           dengeli         vs  dengeli
+```
+
+---
+
+```python
+X_train = scaler.fit_transform(X_train)
+```
+
+### 🧩 Bu satır ne yapıyor?
+
+İki işlemi birden yapar:
+
+```
+fit()         →  Eğitim verisinden ortalama ve standart sapma öğrenir
+transform()   →  Bu bilgiyle eğitim verisini dönüştürür (ölçekler)
+```
+
+**`fit_transform()` bu ikisini tek seferde yapar.**
+
+Matematiksel olarak her değere şunu uygular:
+
+```
+yeni_değer = (eski_değer - ortalama) / standart_sapma
+
+Örnek:
+  Age sütunu ortalaması = 38.9, std = 10.5
+  Bir müşterinin yaşı = 45 ise:
+  yeni_yaş = (45 - 38.9) / 10.5 = 0.58
+```
+
+Sonuç: Tüm değerler 0 civarında, -3 ile +3 arasında bir sayıya dönüşür.
+
+### ⚠️ Kritik Kural
+
+```python
+# DOĞRU ✅ — fit_transform sadece EĞİTİM verisine uygulanır
+X_train = scaler.fit_transform(X_train)
+
+# YANLIŞ ❌ — Test verisine fit_transform ASLA uygulanmaz
+# X_test = scaler.fit_transform(X_test)   ← BU HATALI!
+```
+
+**Neden?**
+Test verisi gerçek hayatı simüle eder.
+Gerçek hayatta yeni gelen bir müşterinin verisinin istatistiklerini bilmezsin.
+Ölçeği yalnızca eğitim verisinden öğrenir, test verisine o ölçeği uygularsın.
+
+---
+
+```python
+X_test = scaler.transform(X_test)
+```
+
+### 🧩 Bu satır ne yapıyor?
+
+Test verisine **sadece dönüştürme** uygular.
+Yeni bir `fit()` yapmaz — eğitim verisinden öğrenilen ortalama ve std kullanılır.
+
+```
+fit()       →  ❌ Yok (eğitim verisinden öğrenileni kullan)
+transform() →  ✅ Var (test verisi aynı ölçekle dönüştürülür)
+```
+
+### 🏫 Gerçek Hayat Benzetmesi
+
+> Bir terzi müşterisinin ölçüsünü alır (fit).
+> Sonra aynı ölçüyle kumaşı keser (transform).
+> Yeni bir müşteri geldiğinde eski ölçüyü kullanmaz,
+> ama eski makineyi (scaler) kullanarak yeni kumaşı keser.
+
+---
+
+## 📦 ADIM 5 — Modeli Kur ve Eğit
+
+```python
 model = LogisticRegression(max_iter=200)
+```
+
+### 🧩 Bu satır ne yapıyor?
+
+`LogisticRegression` algoritmasından bir **model nesnesi** oluşturur.
+
+```python
+max_iter=200
+# Model içindeki matematiksel hesaplama 200 kez tekrar eder.
+# Varsayılan değer 100'dür; büyük veri setlerinde yetmeyebilir.
+# 200 yazmak modele "daha uzun çalış, daha iyi öğren" demektir.
+# Çok düşük olursa: "ConvergenceWarning" hatası alırsın.
+```
+
+---
+
+```python
 model.fit(X_train, y_train)
-# fit() → model veriden öğrenir; ağırlıkları hesaplar
+```
 
-# ── 6. Tahmin yap ────────────────────────────────────────────────
+### 🧩 Bu satır ne yapıyor?
+
+Modeli **eğitir** — gerçek öğrenme burada gerçekleşir.
+
+```
+fit(X_train, y_train)
+    │            │
+    │            └── Doğru cevaplar (Exited: 0 veya 1)
+    └── Özellikler (CreditScore, Age, Balance...)
+
+Model bu ikisini karşılaştırarak şunu öğrenir:
+  "Balance yüksek olan müşteri ayrılıyor mu?"
+  "Yaşlı müşteri daha çok mu ayrılıyor?"
+  "Aktif üye ayrılmıyor mu?"
+```
+
+Arka planda şunu hesaplar:
+
+```
+Her özellik için bir ağırlık (w) bulur:
+  Exited = sigmoid(w1*CreditScore + w2*Age + w3*Balance + ...)
+  
+  Sigmoid fonksiyonu sonucu 0 ile 1 arasına sıkıştırır:
+  0.0 → kesinlikle kalmış
+  0.5 → kararsız
+  1.0 → kesinlikle ayrılmış
+```
+
+### 🏫 Gerçek Hayat Benzetmesi
+
+> Bir banka çalışanı 8.000 eski müşteri dosyasını inceler.
+> "Ayrılan müşterilerin ortak özellikleri neydi?" diye sorar.
+> Bunu öğrendikten sonra yeni müşterilere bakarak tahmin yapar.
+> `fit()` de tam olarak bunu yapar — geçmiş veriden kalıp bulur.
+
+---
+
+## 📦 ADIM 6 — Tahmin Yap
+
+```python
 y_pred = model.predict(X_test)
+```
 
-# ── 7. Başarıyı ölç ──────────────────────────────────────────────
+### 🧩 Bu satır ne yapıyor?
+
+Eğitilmiş modeli kullanarak **test verisi için tahmin üretir**.
+
+```
+X_test  →  [müşteri özellikleri, hiç görülmemiş]
+              ↓
+          model.predict()
+              ↓
+y_pred  →  [0, 1, 0, 0, 1, 1, 0, ...]
+            Her satır için: 0=Kaldı, 1=Ayrıldı
+```
+
+**Arka planda ne oluyor?**
+
+```
+1. Model her müşteri için bir olasılık hesaplar:
+     Müşteri 1 → %23 ayrılır
+     Müşteri 2 → %78 ayrılır
+     Müşteri 3 → %41 ayrılır
+
+2. Olasılık >= 0.5 ise → 1 (Ayrılır)
+   Olasılık <  0.5 ise → 0 (Kalır)
+
+     %23 → 0 (Kalır)
+     %78 → 1 (Ayrılır)
+     %41 → 0 (Kalır)
+```
+
+> Eğer olasılık değerlerini görmek istersen:
+> ```python
+> y_proba = model.predict_proba(X_test)
+> # [[0.77, 0.23],   ← %77 kalır, %23 ayrılır
+> #  [0.22, 0.78],   ← %22 kalır, %78 ayrılır
+> #  [0.59, 0.41]]   ← %59 kalır, %41 ayrılır
+> ```
+
+---
+
+## 📦 ADIM 7 — Başarıyı Ölç
+
+```python
 acc = accuracy_score(y_test, y_pred)
 print(f"\n✅ Model Doğruluğu: %{acc * 100:.1f}")
+```
 
-# Confusion Matrix: Hangi tahminler doğru, hangisi yanlış?
+### 🧩 Bu satır ne yapıyor?
+
+Modelin tahminlerini gerçek cevaplarla karşılaştırır ve **yüzde doğruluk** hesaplar.
+
+```
+accuracy_score(y_test, y_pred)
+               │        │
+               │        └── Modelin tahminleri
+               └── Gerçek doğru cevaplar
+
+Formül:
+  Doğruluk = Doğru Tahminler / Toplam Tahmin
+
+  2000 test örneğinden 1640 doğru tahmin yaptıysa:
+  Doğruluk = 1640 / 2000 = 0.82 → %82
+```
+
+---
+
+### Confusion Matrix (Karışıklık Matrisi)
+
+```python
 cm = confusion_matrix(y_test, y_pred)
 print("\nKarışıklık Matrisi:")
 print(cm)
-#         Tahmin: 0   Tahmin: 1
-# Gerçek: 0   [ TN        FP ]
-# Gerçek: 1   [ FN        TP ]
+```
+
+### 🧩 Bu satır ne yapıyor?
+
+Modelin **hangi tip hataları yaptığını** gösterir.
+4 farklı tahmin türü vardır:
+
+```
+                    ┌─────────────────────────────────────┐
+                    │        MODELİN TAHMİNİ              │
+                    │   Kaldı (0)    │   Ayrıldı (1)       │
+      ┌─────────────┼────────────────┼────────────────────┤
+      │ Kaldı (0)   │   TN ✅        │   FP ❌             │
+GERÇEK│─────────────┼────────────────┼────────────────────┤
+      │ Ayrıldı (1) │   FN ❌        │   TP ✅             │
+      └─────────────┴────────────────┴────────────────────┘
+```
+
+### 🔤 TN, FP, FN, TP Ne Demek?
+
+| Kısaltma | Açık Adı | Ne anlama geliyor? |
+|---|---|---|
+| **TN** | True Negative (Doğru Negatif) | Gerçekten kaldı, model de "kalır" dedi ✅ |
+| **FP** | False Positive (Yanlış Pozitif) | Gerçekte kaldı ama model "ayrılır" dedi ❌ |
+| **FN** | False Negative (Yanlış Negatif) | Gerçekte ayrıldı ama model "kalır" dedi ❌ |
+| **TP** | True Positive (Doğru Pozitif) | Gerçekten ayrıldı, model de "ayrılır" dedi ✅ |
+
+### 🏦 Bankacılık Açısından Hangi Hata Daha Kötü?
+
+```
+FP (Yanlış Alarm):
+  Müşteri ayrılmayacak ama model "ayrılır" dedi.
+  Banka gereksiz yere müşteriyi aramak zorunda kaldı.
+  → Küçük bir maliyet, kabul edilebilir.
+
+FN (Kaçırılan Alarm):
+  Müşteri ayrıldı ama model "kalır" dedi.
+  Banka o müşteriyi tutmak için hiçbir şey yapmadı.
+  → Büyük bir kayıp! Müşteri gitti, geri kazanmak zor.
+```
+
+> **Sonuç:** Bankacılıkta FN hatası FP hatasından çok daha maliyetlidir.
+> Bu yüzden sadece `accuracy`'e değil, `Recall` ve `F1-Score`'a da bakılır.
+
+### 🔢 Gerçek Sayılarla Örnek
+
+```
+Diyelim ki confusion matrix şöyle çıktı:
+
+[[1550  57]    ← Gerçekte Kaldı    satırı
+ [ 303 90]]    ← Gerçekte Ayrıldı  satırı
+
+TN = 1550  → Model "Kaldı" dedi, gerçekten kaldı       ✅
+FP =   57  → Model "Ayrıldı" dedi, ama kaldı           ❌
+FN =  303  → Model "Kaldı" dedi, ama ayrıldı           ❌ (kötü!)
+TP =   90  → Model "Ayrıldı" dedi, gerçekten ayrıldı   ✅
+
+Toplam doğru  = TN + TP = 1550 + 90  = 1640
+Toplam tahmin = 2000
+Doğruluk      = 1640 / 2000 = %82
+```
+
+---
+
+## 📋 Tüm Adımların Özet Akışı
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  ADIM 3: Veriyi böl                                     │
+│  X, y  →  train_test_split  →  X_train, X_test         │
+│                                  y_train, y_test         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  ADIM 4: Ölçeklendir                                    │
+│  scaler.fit_transform(X_train)  →  büyük sayıları eşitle│
+│  scaler.transform(X_test)       →  aynı ölçeği uygula  │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌─────────────���────────▼──────────────────────────────────┐
+│  ADIM 5: Modeli eğit                                    │
+│  model.fit(X_train, y_train)  →  kalıpları öğren       │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  ADIM 6: Tahmin yap                                     │
+│  model.predict(X_test)  →  y_pred  [0,1,0,1,...]       │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  ADIM 7: Değerlendir                                    │
+│  accuracy_score(y_test, y_pred)  →  %82                 │
+│  confusion_matrix(y_test, y_pred)→  TN FP / FN TP      │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 💡 Hatırlatıcı — En Sık Yapılan Hatalar
+
+| Hata | Açıklama |
+|---|---|
+| `fit_transform` test verisine uygulamak | Test verisi gerçek dünyayı simüle eder; ölçeği ondan öğrenemezsin |
+| `random_state` kullanmamak | Her çalıştırmada farklı bölme → tekrarlanamaz deney |
+| Sadece `accuracy`'e bakmak | Dengesiz veri setinde `accuracy` yanıltıcıdır; `confusion matrix` daha bilgilendiricidir |
+| `max_iter` düşük bırakmak | Model yeterince öğrenemez, `ConvergenceWarning` alırsın |
 
 # ── 8. Yeni bir müşteri tahmin et ───────────────────────────────
 # Kredi Skoru: 600, Yaş: 40, Tenure: 5 yıl, Bakiye: 80.000$,
